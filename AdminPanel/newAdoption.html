@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="/AdminPanel/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
+      <div class="container">
+        <a class="navbar-brand" >Admin Page</a>
+        <div> 
+          <div id="adminName" class="navbar-brand" style="color: white;">Welcome Admin </div>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/adminPanel/adoption">Adoption List</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/adminPanel/lost">Lost List</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/adminPanel/user">User List</a>
+            </li>
+            <li>
+              <a onclick="handleLogout()" class="nav-link">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container mt-5">
+      <div class="row">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon3">Sender ID:</span>
+            </div>
+            <input id="senderID" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+          </div>
+        </div>
+      <div class="row row-style" >
+        <div class="col-2">
+          <span class="input-group-text" id="basic-addon3">Status:</span>
+        </div>
+        <div class="col-6">
+          <div class="dropdown" >
+          
+            <button id="status" class="btn btn-secondary dropdown-toggle dropdown-inner" type="button" id="dropdownMenu2" data-bs-toggle='dropdown' aria-haspopup="true" aria-expanded="false">Status</button>
+            
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2" >
+              <button class="dropdown-item" type="button" onclick="dropdownHandle2('Not Approved')" >Not Approved</button>
+              <button class="dropdown-item" type="button" onclick="dropdownHandle2('Reject')" >Reject</button>
+              <button class="dropdown-item" type="button" onclick="dropdownHandle2('Approve')" >Aprrove</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="row">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Address:</span>
+          </div>
+          <input id="address" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">City:</span>
+          </div>
+          <input id="city" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Neighborhood:</span>
+          </div>
+          <input id="neighborhood" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Age:</span>
+          </div>
+          <input id="age" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+      </div>
+      
+      <div class="row ">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Breed:</span>
+          </div>
+          <input id="breed" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+      </div>
+      <div class="row row-style">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Tpye:</span>
+          </div>
+          <input id="type" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+      </div>
+
+      <div class="row row-style">
+        <div class="form-group">
+          <label for="description" style="font: bolder; font-size: large;">Description</label>
+          <textarea  class="form-control" id="description" rows="4"></textarea>
+        </div>
+      </div>
+    
+    
+
+      <div class="row row-style"  >
+        <div class="col-2">
+          <span class="input-group-text" id="basic-addon3">Gender:</span>
+        </div>
+        <div class="col-6">
+          <div class="dropdown">
+            <button id="gender" class="btn btn-secondary dropdown-toggle dropdown-inner" type="button" id="dropdownMenu2" data-bs-toggle='dropdown' aria-haspopup="true" aria-expanded="false">Gender</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <button class="dropdown-item" type="button" onclick="dropdownHandle('Male')" >Male</button>
+              <button class="dropdown-item" type="button" onclick="dropdownHandle('Female')">Female</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+      <div class="row" style="margin-bottom: 10px;" >
+        <div class="col-6">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon3">Image URL:</span>
+            </div>
+            <input id="image" type="file" class="form-control" id="basic-url" aria-describedby="basic-addon3" onchange="handleImageView()">
+          </div>
+        </div>
+        <div class="col-6">
+          <img id="source" src="" alt="" id="imagePreview" style="width: 150px; height: 150px;">
+        </div>  
+      </div>
+  
+      <div class="row">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Pet Name:</span>
+          </div>
+          <input id="name" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <button id="submit" type="button" class="btn btn-primary submit-button" onclick="handleUpdateApi()" >Submit</button>
+        </div>
+
+      </div>
+      
+      
+      
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+      <div class="container text-center">
+        <p>&copy; 2024 PEATA. All rights reserved.</p>
+      </div>
+    </footer>
+    <!-- Bootstrap JS -->
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const serverport=3000;
+      const token =sessionStorage.getItem('token');
+      document.addEventListener("DOMContentLoaded", async function() {
+        if(sessionStorage.getItem('token') == null){
+          window.location.href = `http://localhost:${serverport}/adminLogin`;
+        }
+        handleAPI();
+        user=JSON.parse(sessionStorage.getItem('userCredential'))
+        document.getElementById("adminName").innerText = `Welcome ${user.displayName}`;
+        
+        
+      })
+
+      function dropdownHandle(value){
+        var dropdownContent= document.getElementById("gender");
+        dropdownContent.innerHTML=value;
+      }
+      function dropdownHandle2(value){
+        var dropdownContent= document.getElementById("status");
+        dropdownContent.innerHTML=value;
+      }
+
+      function capitalizeFirstChar(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+      }
+
+      async function handleUpdateApi(){
+          const imageLink = await uploadImage();
+          var status= await document.getElementById("status").innerHTML;
+          if(status=="Status"){
+            alert("Please select status");
+            return;
+          }
+          else if(status=="Not Approved"){
+            status=0;
+          }
+          else if(status=="Reject"){
+            status=1;
+          }
+          else if(status=="Approve"){
+            status=2;
+          }
+
+          var address= await document.getElementById("address").value;
+          var city= capitalizeFirstChar(await document.getElementById("city").value);
+          var neighborhood= capitalizeFirstChar(await document.getElementById("neighborhood").value);
+          var age=await document.getElementById("age").value;
+          var breed= capitalizeFirstChar(await document.getElementById("breed").value);
+          var type= capitalizeFirstChar(await document.getElementById("type").value);
+          var description=await document.getElementById("description").value;
+          var gender=await document.getElementById("gender").innerHTML;
+          if (gender=="Gender"){
+            alert("Please select a Gender");
+            return;
+          }
+          var name=capitalizeFirstChar(await document.getElementById("name").value);
+          var senderID=await document.getElementById("senderID").value;
+
+          if(address=="" || city=="" || neighborhood=="" || age=="" || breed=="" || type=="" || description==""||name==""||senderID==""){
+            alert("Please fill all the fields");
+            return;
+          }
+
+          var data={
+              userid:senderID,
+              address:address,
+              city:city,
+              neighborhood:neighborhood,
+              age:age,
+              breed:breed,
+              description:description,
+              status:status,
+              name:name,
+              gender:gender,
+              type:type,
+              image:imageLink,
+              
+          }
+          if(image==""){
+            alert("Please enter image URL");
+            return;
+          }
+          const response = await axios.post(`http://localhost:${serverport}/saveAdoption`, data,
+          {
+          headers: {
+                  'Content-Type': 'application/json',
+                  "Access-Control-Allow-Origin": "*",
+                  'Authorization':token
+              }}
+          );
+          console.log(response.data);
+          if (response.data.status === "Adoption Saved") {
+            alert("Adoption added successfully");
+          } else {
+            alert("Adoption not added");
+          }
+
+
+      }
+      async function handleImageView(){
+          var image=document.getElementById("image").files[0];
+          if(image){
+            var reader=new FileReader();
+            reader.onload=function(){
+              var source=document.getElementById("source");
+              source.src=reader.result;
+            }
+            reader.readAsDataURL(image);
+          }
+          var source=document.getElementById("source");
+          source.src=image;
+      }
+
+      async function uploadImage() {
+          const fileInput = document.getElementById('image');
+          const file = fileInput.files[0]; // Get the first file selected by the user
+          const userid=await document.getElementById("senderID").value;
+          if (!file) {
+              console.error('No file selected');
+              return;
+          }
+          if(userid==""){
+            alert("Please enter sender ID");
+            return;
+          }
+          
+          const formData = new FormData();
+          formData.append('image', file, file.name);
+          
+          try {
+              const response = await axios.post(`http://localhost:${serverport}/upload`, formData, {
+              headers: {
+                  'Content-Type': 'multipart/form-data',
+                  "Access-Control-Allow-Origin": "*",
+                  'userid':userid
+              }
+
+              });
+              
+              console.log('File uploaded successfully:', response.data.imageUrl);
+              return response.data.imageUrl;
+          } catch (error) {
+              console.error('Error uploading file:', error);
+              console.log("error",response.data);
+          }
+      }
+      function handleLogout(){
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('userCredential');
+        window.location.href = `http://localhost:${serverport}/adminLogin`;
+      }
+
+
+    
+
+    </script>
+  </body>
+</html>

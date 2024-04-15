@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Page</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="/AdminPanel/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
+    <div class="container">
+      <a class="navbar-brand" >Admin Page</a>
+      <div> 
+        <div id="adminName" class="navbar-brand" style="color: white;">Welcome Admin </div>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/adminPanel/adoption">Adoption List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/adminPanel/lost">Lost List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/adminPanel/user">User List</a>
+          </li>
+          <li>
+            <a onclick="handleLogout()" class="nav-link">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container mt-5">
+   
+    <div class="row">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">User ID:</span>
+        </div>
+       <p id="user_id" class="text-box"></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">User Name:</span>
+        </div>
+       <p id="user_name" class="text-box"></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">Name:</span>
+        </div>
+        <input id="name" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">Surname:</span>
+        </div>
+        <input id="surname" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">E-mail:</span>
+        </div>
+        <input id="email" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+      </div>
+    </div>
+
+        
+    <div class="row">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">Phone Number:</span>
+        </div>
+        <input id="phone" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">Address:</span>
+        </div>
+        <input id="address" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+      </div>
+    </div>
+    
+    <div class="row ">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">Password:</span>
+        </div>
+        <input id="password" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+      </div>
+    </div>
+    <div class="row ">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">City:</span>
+        </div>
+        <input id="city" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+      </div>
+    </div>
+  
+
+
+    <div class="row" style="text-align: center ;">
+        <div class="col-md-6">
+            <button id="submit" type="button" class="btn btn-primary submit-button" onclick="handleUpdateApi()" >Update</button>
+        </div>
+        <div class="col-md-6">
+            <button id="delete" onclick="handleDeleteApi()" type="button" class="btn btn-danger submit-button">Delete</button>
+        </div>
+    </div>
+    
+    
+    
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container text-center">
+      <p>&copy; 2024 PEATA. All rights reserved.</p>
+    </div>
+  </footer>
+  <!-- Bootstrap JS -->
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const serverport=3000;
+    const token =sessionStorage.getItem('token');
+    document.addEventListener("DOMContentLoaded", async function() {
+        const url=window.location.href;
+        const segments=url.split("/");
+        if(sessionStorage.getItem('token') == null){
+          window.location.href = `http://localhost:${serverport}/adminLogin`;
+        }
+        user=JSON.parse(sessionStorage.getItem('userCredential'))
+        document.getElementById("adminName").innerText = `Welcome ${user.displayName}`;
+        
+        
+        const user_id= segments[segments.length-1];
+        console.log("user_id",user_id)
+        const data= await getUser(user_id);
+        handleData(data);  
+      
+    })
+
+
+
+    async function getUser(user_id){
+      console.log("token123123*09123",token)
+      const response = await axios.post(`http://localhost:3000/postUserById`,{userid:user_id},
+      {
+          headers: {
+            'Authorization':token
+          }
+      });
+      return response.data;
+    }
+
+    ///// BURDAYIM  USER_ID DE SIKINTI VAR 
+
+    function handleData(data){
+      document.getElementById("user_id").innerHTML=`${data.user_id}`
+      document.getElementById("user_name").innerHTML=`${data.user_name}`
+      document.getElementById("name").value=`${data.name}`
+      document.getElementById("surname").value=`${data.surname}`
+      document.getElementById("email").value=`${data.email}`
+      document.getElementById("phone").value=`${data.phone}`
+      document.getElementById("address").value=`${data.address}`
+      document.getElementById("password").value=`${data.password}`
+      document.getElementById("city").value=`${data.city}`
+
+    }
+
+
+    async function handleSubmition(){
+      const user_id=document.getElementById("user_id").innerHTML;
+      const user_name=document.getElementById("user_name").innerHTML;
+      const name=capitalizeFirstChar(document.getElementById("name").value);
+      const surname=capitalizeFirstChar(document.getElementById("surname").value);
+      const email=document.getElementById("email").value;
+      const phone=document.getElementById("phone").value;
+      const address=document.getElementById("address").value;
+      const password=document.getElementById("password").value;
+      const city=capitalizeFirstChar(document.getElementById("city").value);
+      const data={
+        user_id:user_id,
+        user_name:user_name,
+        name:name,
+        surname:surname,
+        email:email,
+        phone:phone,
+        address:address,
+        password:password,
+        city:city
+      }
+      return data; 
+    }
+
+    async function handleUpdateApi(){
+      
+      const data = await handleSubmition();
+      if(data==undefined){
+        return;
+      }
+      const response = await axios.post(`http://localhost:${serverport}/updateUser`,data,
+      {
+          headers: {
+            'Authorization':token
+          }
+      });
+      console.log(response)
+      if(response.status==200){
+        alert("User is updated successfully");
+        window.location.href=`http://localhost:${serverport}/adminPanel/user`;
+      }
+      else{
+        alert("User is not updated");
+      }
+    }
+
+    async function handleDeleteApi(){
+        const data = await handleSubmition();
+        if(data==undefined){
+          return;
+        }
+        const response = await axios.post(`http://localhost:${serverport}/deleteUser`,data,{
+          headers: {
+            'Authorization':token
+          }
+        });
+        if(response.status==200){
+        alert("User is deleted successfully");
+        window.location.href=`http://localhost:${serverport}/adminPanel/user`;
+      }
+      else{
+        alert("User is not deleted");
+      }
+    }
+
+
+
+
+
+    function capitalizeFirstChar(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+    function convertFirestoreTimestampToDate(firestoreTimestamp){
+        const milliseconds =firestoreTimestamp._seconds * 1000 + firestoreTimestamp._nanoseconds / 1e6;
+        return new Date(milliseconds);
+    }
+    function handleLogout(){
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('userCredential');
+      window.location.href = `http://localhost:${serverport}/adminLogin`;
+    }
+    
+  </script>
+</body>
+</html>

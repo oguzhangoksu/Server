@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Upload</title>
+</head>
+<body>
+
+  <h1>Image Upload</h1>
+
+  <!-- Input field for image upload -->
+  <input type="file" id="imageInput" accept="image/*">
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const fileInput = document.getElementById('imageInput');
+
+    fileInput.addEventListener('change', handleFileUpload);
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      console.log(file);
+
+      if (file) {
+        const formData = new FormData();
+        formData.append('image', file, file.name);
+        
+
+        const apiEndpoint = 'http://localhost:3000/upload';
+
+        axios.post(apiEndpoint, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "Access-Control-Allow-Origin": "*",
+            "userid":"UserOne"
+          }
+        })
+        .then(response => {
+          console.log(response.data);
+          // Handle the API response
+        })
+        .catch(error => {
+          console.error(error);
+          // Handle errors
+        });
+      }
+    }
+  </script>
+</body>
+</html>
