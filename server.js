@@ -1009,16 +1009,19 @@ app.post("/postUserLogin",async (req,res)=>{
     try{
         const passwordHash= await hashPassword(password);
         const userCredential = await signInWithEmailAndPassword(email,passwordHash);
+        if(await bcrypt.compare(password, userCredential.customClaims.passwordHash)===false){
+            return res.status(400).json({error:"Password is incorrect"})
+        }
         const token = jwt.sign({ uid: userCredential.uid }, secretKey);
         console.log('Token',token);
         await admin.auth().setCustomUserClaims(userCredential.uid, { passwordHash:userCredential.customClaims.passwordHash,token: token });
         console.log('Successfully logged in:', userCredential);
-        res.status(200).send({message:"User Logged In",user:{user_name:userCredential.displayName,token:token}})
+        return res.status(200).send({message:"User Logged In",user:{user_name:userCredential.displayName,token:token}})
 
 
     }catch(err){
         console.log(err)
-        res.status(500).json({"error":`${err}`})
+        return res.status(500).json({"error":`${err}`})
     }
 })
 
@@ -1470,14 +1473,18 @@ app.post("/adminPanel/adminLogin",async (req,res)=>{
     const {email, password} = req.body;
     
     try {
-        const userCredential = await signInWithEmailAndPassword(email, password);
+        const passwordHash= await hashPassword(password);
+        const userCredential = await signInWithEmailAndPassword(email, passwordHash);
+        if(await bcrypt.compare(password, userCredential.customClaims.passwordHash)===false){
+            return res.status(400).json({error:"Password is incorrect"})
+        }
         const token = jwt.sign({ uid: userCredential.uid }, secretKey);
         admin.auth().setCustomUserClaims(userCredential.uid, { passwordHash:userCredential.customClaims.passwordHash,token: token });
-        console.log("Admin Logged In")
-        res.status(200).json({ userCredential:userCredential,token:token  });
+        //console.log("Admin Logged In",userCredential)
+        return res.status(200).json({ userCredential:userCredential,token:token  });
     } catch (error) {
         console.error('Error signing in:', error);
-        res.status(400).json({ error: 'Invalid email or password' });
+        return res.status(400).json({ error: 'Invalid email or password' });
     }
 })
 
@@ -1517,7 +1524,6 @@ async function signInWithEmailAndPassword(email, password) {
         const validPassword = validatePassword(userRecord, password);
         
         if (validPassword) {
-            console.log('User authenticated successfully:');
             return userRecord;
         } else {
             throw new Error('Invalid password');
@@ -1529,10 +1535,7 @@ async function signInWithEmailAndPassword(email, password) {
   }
 
 async function validatePassword(userRecord, password) {
-    // Example: Compare stored password hash with provided password hash
-    // Here you would typically use a secure password hashing algorithm such as bcrypt
-    // For demonstration purposes, let's assume the stored password hash is stored in userRecord.customClaims.passwordHash
-    // Compare userRecord.customClaims.passwordHash with hashed password
+  
     const storedPasswordHash = userRecord.customClaims.passwordHash; // Replace with actual field name where password hash is stored
     const providedPasswordHash = await hashPassword(password); // Replace with your own password hashing function
     return storedPasswordHash === providedPasswordHash;
