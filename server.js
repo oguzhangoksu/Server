@@ -1016,7 +1016,7 @@ app.post("/postUserLogin",async (req,res)=>{
         console.log('Token',token);
         await admin.auth().setCustomUserClaims(userCredential.uid, { passwordHash:userCredential.customClaims.passwordHash,token: token });
         console.log('Successfully logged in:', userCredential);
-        return res.status(200).send({message:"User Logged In",user:{user_name:userCredential.displayName,token:token}})
+        return res.status(200).send({message:"User Logged In",token:token,user:userCredential})
 
 
     }catch(err){
