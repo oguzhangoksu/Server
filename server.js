@@ -122,10 +122,7 @@ app.post("/saveAdoption",authenticateToken,(req,res)=>{
     const adId = firestoreAutoId.autoId();
     const adoptionAdId = firestoreAutoId.autoId();
     const petId = firestoreAutoId.autoId();
-    let status = 0;
-    if(req.body.status!=null || req.body.status!=undefined || req.body.status!=""){
-         status = req.body.status;   
-    }
+    let status = req.body.status !== undefined ? req.body.status : 0;
     console.log("status👋👋👋👋",status)
     console.log(req.body)
     //Ad Save
@@ -526,10 +523,8 @@ app.post("/saveLost",authenticateToken,(req,res)=>{
     const adId = firestoreAutoId.autoId();
     const lostAdId = firestoreAutoId.autoId();
     const petId = firestoreAutoId.autoId();
-    let status = 0;
-    if(req.body.status!=null || req.body.status!=undefined || req.body.status!=""){
-        status = req.body.status;   
-    }
+    var status = req.body.status !== undefined ? req.body.status : 0;
+   
     console.log(req.body)
     //Ad Save
     adColectionRef.doc(adId).set({
@@ -538,6 +533,7 @@ app.post("/saveLost",authenticateToken,(req,res)=>{
     }).then(()=>{
         console.log("Ad Saved")
         //Lost Ad Save
+        console.log("❤️❤️❤️❤️",status)
         lostListCollectionRef.doc(lostAdId).set({
             ad_id:adId,
             status:status
