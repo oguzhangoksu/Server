@@ -260,7 +260,7 @@ app.get("/getAdoptionList",async (req,res)=>{
 })
 
 
-app.post("/postAdoptionListByAdId",authenticateToken,async (req,res)=>{
+app.post("/postAdoptionListByAdId",async (req,res)=>{
     const adoptionList = [];
     try{
         const ad = await adColectionRef.doc(req.body.adid).get();
@@ -658,7 +658,7 @@ app.get("/getLostList",async (req,res)=>{
 })
 
 
-app.post("/postLostListByAdId",authenticateToken,async (req,res)=>{
+app.post("/postLostListByAdId",async (req,res)=>{
     const lostList = [];
     try{
         const ad = await adColectionRef.doc(req.body.adid).get();
@@ -1026,7 +1026,7 @@ app.post("/postUserLogin",async (req,res)=>{
 })
 
 
-app.post("/postUserById",authenticateToken,async (req,res)=>{
+app.post("/postUserById",async (req,res)=>{
     try{
         console.log("req.uid:",req.uid)
         const user = await usersCollectionRef.doc(req.body.userid).get();
@@ -1240,17 +1240,26 @@ app.post("/changeReadByMailboxId",authenticateToken,async (req,res)=>{
             mailboxid:"123456789"
         }
     */
-    const userRef = userColectionRef.doc(req.body.userid);
-    const mailboxRef = userRef.collection('mailbox').doc(req.body.mailboxid);
-    const mailboxSnapshot = await mailboxRef.get();
-    if(mailboxSnapshot.exists){
-        mailboxRef.update({
-            read:true
-        }).then(()=>{
-            res.status(200).send("Read Status Updated")
-        }).catch((err)=>{
-            res.status(400).send("Read Status Could Not Updated")
-        })
+    console.log("userid",req.body.userid)
+    console.log("mailboxid",req.body.mailboxid)
+    console.log("enson buraya girdi")
+    try{
+        const userRef = userColectionRef.doc(req.body.userid);
+        const mailboxRef = userRef.collection('mailbox').doc(req.body.mailboxid);
+        const mailboxSnapshot = await mailboxRef.get();
+        if(mailboxSnapshot.exists){
+            mailboxRef.update({
+                read:true
+            }).then(()=>{
+                res.status(200).send("Read Status Updated")
+            }).catch((err)=>{
+                res.status(400).send("Read Status Could Not Updated")
+            })
+        }
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json({"error":`${err}`})
     }
 
 })
@@ -1262,6 +1271,7 @@ app.post('/AIPredict', async function (req, res) {
         {"imageLink": "https://firebasestorage.googleapis.com/v0/b/deneme-300d0.appspot.com/o/UserOne%2Favatar.svg1708974611622?alt=media&token=5a2c5859-3ec2-474b-9976-249662a49bdc}
     */
     try{
+        console.log(req.body.imageLink)
         const imageLink= await req.body.imageLink; 
         const pythonProcess = spawn('python', ['PredictImage.py'], { stdio: ['pipe', 'pipe', process.stderr] });
     
