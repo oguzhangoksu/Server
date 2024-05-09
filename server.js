@@ -210,7 +210,9 @@ app.get("/getAdoptionList",async (req,res)=>{
                         "name":petDoc.data().name,
                         "date":petDoc.data().date,
                         "senderName":user.data().name,
-                        "senderID":user.id
+                        "senderID":user.id,
+                        "sender-email:":user.data().email,
+                        "sender-phone":user.data().phone,
                     })
                 })
             }
@@ -606,7 +608,10 @@ app.get("/getLostList",async (req,res)=>{
                         "name":petDoc.data().name,
                         "date":petDoc.data().date,
                         "senderName":user.data().name,
-                        "senderID":user.id
+                        "senderID":user.id,
+                        "sender-email:":user.data().email,
+                        "sender-phone":user.data().phone,
+
                     })
                 })
             }
@@ -991,7 +996,7 @@ app.post("/postUserRegister",async (req,res)=>{
             
 
 
-            res.status(200).send({message:"User Registered",token:token,user:{user_name:req.body.user_name,surname:req.body.surname,email:req.body.email,user_id:user.uid}})
+            res.status(200).send({message:"User Registered"})
                                     
         }
     }catch(err){
